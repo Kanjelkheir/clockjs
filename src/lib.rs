@@ -242,10 +242,11 @@ pub mod stopwatch {
             }    
         }
 
-        pub fn stop_timer<T>(seconds: u32, reference: &mut StopwatchStruct<T>)
+        pub fn stop_timer(seconds: u32, reference: &mut StopwatchStruct<T>)
         where T: Fn(u32), 
         {
             let duration = Duration::from_secs(seconds.into());
+            thread::sleep(duration);
             reference.status = StopwatchStatus::Stopped; 
         }
     }
