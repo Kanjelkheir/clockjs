@@ -245,7 +245,7 @@ pub mod stopwatch {
         pub fn stop_timer<T>(seconds: u32, reference: &mut StopwatchStruct<T>)
         where T: Fn(u32), 
         {
-            let duration = Duration::from_secs(seconds);
+            let duration = Duration::from_secs(seconds.into());
             reference.status = StopwatchStatus::Stopped; 
         }
     }
