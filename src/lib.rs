@@ -73,7 +73,7 @@ pub mod timer {
         /// # Examples
         ///
         /// ```
-        /// use your_crate_name::TimerStruct; // Replace your_crate_name with your actual crate name
+        /// use clock-timer::TimerStruct; // Replace your_crate_name with your actual crate name
         /// use std::io::{self, stdout};
         ///
         /// let timer = TimerStruct::new(0, 0, 5).unwrap(); // 5-second timer
@@ -162,7 +162,7 @@ pub mod stopwatch {
         /// # Examples
         ///
         /// ```
-        /// use your_crate_name::stopwatch::{StopwatchStruct, StopwatchStatus}; // Replace your_crate_name
+        /// use clock-timer::stopwatch::{StopwatchStruct, StopwatchStatus}; // Replace clock-timer 
         ///
         /// let mut stopwatch = StopwatchStruct::new(|time| {
         ///     println!("Stopwatch stopped at {} seconds.", time);
