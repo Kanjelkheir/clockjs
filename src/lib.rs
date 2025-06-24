@@ -237,7 +237,16 @@ pub mod stopwatch {
                 self.current_time += 1;
 
                 write!(writer, "{}\r", output_format).unwrap();
+
+                writer.flush().unwrap();
             }    
+        }
+
+        pub fn stop_timer<T>(seconds: u32, reference: &mut StopwatchStruct<T>)
+        where T: Fn(u32), 
+        {
+            let duration = Duration::from_secs(seconds);
+            reference.status = StopwatchStatus::Stopped; 
         }
     }
 }
