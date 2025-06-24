@@ -3,5 +3,6 @@ name = "clock-timer"
 version = "0.1.1"
 edition = "2024"
 description = "A clock crate that offer a timer and a stopwatch to use in your apps"
+license = "MIT"
 
 [dependencies]
