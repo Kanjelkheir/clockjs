@@ -1,8 +1,9 @@
 [package]
 name = "clock-timer"
-version = "0.2.2"
+version = "0.2.3"
 edition = "2024"
 description = "A clock crate that offer a timer and a stopwatch to use in your apps"
 license = "MIT"
 
 [dependencies]
+ctrlc = "3.2.5"
