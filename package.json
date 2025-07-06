@@ -1,6 +1,6 @@
 {
   "name": "rust-ticker",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "High-performance timer and stopwatch library built with Rust and WebAssembly",
   "main": "dist/bundler/clockjs.js",
   "module": "dist/bundler/clockjs.js",
