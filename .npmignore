@@ -30,14 +30,35 @@ build.sh
 !CHANGELOG.md
 !LICENSE
 
-# All files are excluded by default, we explicitly include what we want
-*
-!dist/
-!dist/bundler/
-!dist/web/
-!dist/node/
-!LICENSE
-!package.json
+# Rust and Cargo files
+/target/
+**/*.rs.bk
+Cargo.lock
+
+# Development files
+/src/
+/.github/
+/.git/
+/.gitignore
+/examples/
+/tests/
+/benches/
+
+# Build scripts and configurations
+build.sh
+.travis.yml
+.appveyor.yml
+.cargo/
+
+# Editor and IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Documentation and misc
+*.md
 !README.md
+!CHANGELOG.md
+!LICENSE
 !NPM.md
-!js-demo.html
