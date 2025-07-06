@@ -1,295 +1,330 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clock Timer JS Demo</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-        }
-
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .demo-box {
-            flex: 1;
-            min-width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .time-display {
-            font-size: 2.5rem;
-            font-family: monospace;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .controls {
-            display: flex;
-            gap: 10px;
-        }
-
-        button {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            background-color: #0066cc;
-            color: white;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        button:hover {
-            background-color: #0052a3;
-        }
-
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-
-        pre {
-            background: #f5f5f5;
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
-            overflow: auto;
-            max-height: 200px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Clock Timer JS Demo</h1>
-    <p>This demo demonstrates the clock-timer functionality implemented in JavaScript.</p>
-
-    <div class="container">
-        <div class="demo-box">
-            <h2>Timer</h2>
-            <div id="timer-display" class="time-display">00:00:10</div>
-            <div class="controls">
-                <button id="start-timer">Start Timer (10s)</button>
-            </div>
-            <div id="timer-status"></div>
-        </div>
-
-        <div class="demo-box">
-            <h2>Stopwatch</h2>
-            <div id="stopwatch-display" class="time-display">00:00:00</div>
-            <div class="controls">
-                <button id="start-stopwatch">Start</button>
-                <button id="stop-stopwatch" disabled>Stop</button>
-                <button id="reset-stopwatch" disabled>Reset</button>
-            </div>
-            <div id="stopwatch-status"></div>
-        </div>
-    </div>
-
-    <h2>Console Output:</h2>
-    <pre id="console-output"></pre>
-
-    <script>
-        // Console output capture
-        const consoleOutput = document.getElementById('console-output');
-        const originalConsoleLog = console.log;
-        console.log = function() {
-            const args = Array.from(arguments);
-            const message = args.join(' ');
-            consoleOutput.textContent = message + '\n' + consoleOutput.textContent;
-            originalConsoleLog.apply(console, arguments);
-        };
-
-        // Timer class
-        class Timer {
-            constructor(hours, minutes, seconds) {
-                this.hours = hours;
-                this.minutes = minutes;
-                this.seconds = seconds;
-                this.duration = hours * 3600 + minutes * 60 + seconds;
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Rust Ticker JS Demo</title>
+        <style>
+            body {p: 'dist/bundler/clockjs.js' and 'dist/bundler/clockjs.js' are the same file
+            npm error code 1
+            npm error path /home/bilal/workspace/rust/projects/clock-timer
+            npm error command failed
+            npm error command sh -c npm run build
+            npm error A complete log of this run can be found in: /home/bilal/.npm/_logs/2025-07-06T17_42_36_282Z-debug-0.logp: 'dist/bundler/clockjs.js' and 'dist/bundler/clockjs.js' are the same file
+            npm error code 1
+            npm error path /home/bilal/workspace/rust/projects/clock-timer
+            npm error command failed
+            npm error command sh -c npm run build
+            npm error A complete log of this run can be found in: /home/bilal/.npm/_logs/2025-07-06T17_42_36_282Z-debug-0.log
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                line-height: 1.6;
             }
 
-            start() {
-                return new Promise(resolve => {
-                    let remaining = this.duration;
-                    const interval = setInterval(() => {
-                        remaining--;
-                        console.log(`Timer: ${Math.floor(remaining/3600)}:${Math.floor((remaining%3600)/60)}:${remaining%60}`);
-                        if (remaining <= 0) {
-                            clearInterval(interval);
-                            resolve();
-                        }
+            .container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+
+            .demo-box {
+                flex: 1;
+                min-width: 300px;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                padding: 20px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .time-display {
+                font-size: 2.5rem;
+                font-family: monospace;
+                margin: 20px 0;
+                text-align: center;
+            }
+
+            .controls {
+                display: flex;
+                gap: 10px;
+            }
+
+            button {
+                padding: 8px 16px;
+                border: none;
+                border-radius: 4px;
+                background-color: #0066cc;
+                color: white;
+                cursor: pointer;
+                font-size: 1rem;
+            }
+
+            button:hover {
+                background-color: #0052a3;
+            }
+
+            button:disabled {
+                background-color: #cccccc;
+                cursor: not-allowed;
+            }
+
+            pre {
+                background: #f5f5f5;
+                border: 1px solid #ddd;
+                padding: 10px;
+                margin: 10px 0;
+                border-radius: 4px;
+                overflow: auto;
+                max-height: 200px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Rust Ticker JS Demo</h1>
+        <p>
+            This demo demonstrates the rust-ticker functionality implemented in
+            JavaScript.
+        </p>
+
+        <div class="container">
+            <div class="demo-box">
+                <h2>Timer</h2>
+                <div id="timer-display" class="time-display">00:00:10</div>
+                <div class="controls">
+                    <button id="start-timer">Start Timer (10s)</button>
+                </div>
+                <div id="timer-status"></div>
+            </div>
+
+            <div class="demo-box">
+                <h2>Stopwatch</h2>
+                <div id="stopwatch-display" class="time-display">00:00:00</div>
+                <div class="controls">
+                    <button id="start-stopwatch">Start</button>
+                    <button id="stop-stopwatch" disabled>Stop</button>
+                    <button id="reset-stopwatch" disabled>Reset</button>
+                </div>
+                <div id="stopwatch-status"></div>
+            </div>
+        </div>
+
+        <h2>Console Output:</h2>
+        <pre id="console-output"></pre>
+
+        <script>
+            // Console output capture
+            const consoleOutput = document.getElementById("console-output");
+            const originalConsoleLog = console.log;
+            console.log = function () {
+                const args = Array.from(arguments);
+                const message = args.join(" ");
+                consoleOutput.textContent =
+                    message + "\n" + consoleOutput.textContent;
+                originalConsoleLog.apply(console, arguments);
+            };
+
+            // Timer class
+            class Timer {
+                constructor(hours, minutes, seconds) {
+                    this.hours = hours;
+                    this.minutes = minutes;
+                    this.seconds = seconds;
+                    this.duration = hours * 3600 + minutes * 60 + seconds;
+                }
+
+                start() {
+                    return new Promise((resolve) => {
+                        let remaining = this.duration;
+                        const interval = setInterval(() => {
+                            remaining--;
+                            console.log(
+                                `Timer: ${Math.floor(remaining / 3600)}:${Math.floor((remaining % 3600) / 60)}:${remaining % 60}`,
+                            );
+                            if (remaining <= 0) {
+                                clearInterval(interval);
+                                resolve();
+                            }
+                        }, 1000);
+                    });
+                }
+            }
+
+            // Stopwatch class
+            class Stopwatch {
+                constructor() {
+                    this.current_time = 0;
+                    this.is_running = false;
+                    this.interval = null;
+                }
+
+                start() {
+                    if (this.is_running) return;
+                    this.is_running = true;
+                    this.interval = setInterval(() => {
+                        this.current_time++;
+                        console.log(
+                            `Stopwatch: ${Math.floor(this.current_time / 3600)}:${Math.floor((this.current_time % 3600) / 60)}:${this.current_time % 60}`,
+                        );
                     }, 1000);
-                });
-            }
-        }
+                }
 
-        // Stopwatch class
-        class Stopwatch {
-            constructor() {
-                this.current_time = 0;
-                this.is_running = false;
-                this.interval = null;
-            }
+                stop() {
+                    if (!this.is_running) return this.current_time;
+                    this.is_running = false;
+                    clearInterval(this.interval);
+                    return this.current_time;
+                }
 
-            start() {
-                if (this.is_running) return;
-                this.is_running = true;
-                this.interval = setInterval(() => {
-                    this.current_time++;
-                    console.log(`Stopwatch: ${Math.floor(this.current_time/3600)}:${Math.floor((this.current_time%3600)/60)}:${this.current_time%60}`);
-                }, 1000);
+                reset() {
+                    this.stop();
+                    this.current_time = 0;
+                }
             }
 
-            stop() {
-                if (!this.is_running) return this.current_time;
-                this.is_running = false;
-                clearInterval(this.interval);
-                return this.current_time;
+            // Format time display
+            function formatTimeDisplay(hours, minutes, seconds) {
+                return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
             }
 
-            reset() {
-                this.stop();
-                this.current_time = 0;
-            }
-        }
+            // DOM elements
+            const timerDisplay = document.getElementById("timer-display");
+            const startTimerBtn = document.getElementById("start-timer");
+            const timerStatus = document.getElementById("timer-status");
 
-        // Format time display
-        function formatTimeDisplay(hours, minutes, seconds) {
-            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
+            const stopwatchDisplay =
+                document.getElementById("stopwatch-display");
+            const startStopwatchBtn =
+                document.getElementById("start-stopwatch");
+            const stopStopwatchBtn = document.getElementById("stop-stopwatch");
+            const resetStopwatchBtn =
+                document.getElementById("reset-stopwatch");
+            const stopwatchStatus = document.getElementById("stopwatch-status");
 
-        // DOM elements
-        const timerDisplay = document.getElementById('timer-display');
-        const startTimerBtn = document.getElementById('start-timer');
-        const timerStatus = document.getElementById('timer-status');
+            // Timer functionality
+            startTimerBtn.addEventListener("click", async () => {
+                try {
+                    // Create a 10 second timer
+                    const timer = new Timer(0, 0, 10);
+                    console.log("Timer created, duration:", timer.duration);
+                    startTimerBtn.disabled = true;
+                    timerStatus.textContent = "Timer running...";
 
-        const stopwatchDisplay = document.getElementById('stopwatch-display');
-        const startStopwatchBtn = document.getElementById('start-stopwatch');
-        const stopStopwatchBtn = document.getElementById('stop-stopwatch');
-        const resetStopwatchBtn = document.getElementById('reset-stopwatch');
-        const stopwatchStatus = document.getElementById('stopwatch-status');
+                    // Start time for client-side display updates
+                    const startTime = Date.now();
+                    const totalDuration = timer.duration;
 
-        // Timer functionality
-        startTimerBtn.addEventListener('click', async () => {
-            try {
-                // Create a 10 second timer
-                const timer = new Timer(0, 0, 10);
-                console.log("Timer created, duration:", timer.duration);
-                startTimerBtn.disabled = true;
-                timerStatus.textContent = 'Timer running...';
+                    // Update display every 100ms for smooth countdown
+                    const interval = setInterval(() => {
+                        const elapsed = Math.floor(
+                            (Date.now() - startTime) / 1000,
+                        );
+                        const remaining = Math.max(0, totalDuration - elapsed);
 
-                // Start time for client-side display updates
-                const startTime = Date.now();
-                const totalDuration = timer.duration;
+                        const hours = Math.floor(remaining / 3600);
+                        const minutes = Math.floor((remaining % 3600) / 60);
+                        const seconds = remaining % 60;
 
-                // Update display every 100ms for smooth countdown
-                const interval = setInterval(() => {
-                    const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                    const remaining = Math.max(0, totalDuration - elapsed);
+                        timerDisplay.textContent = formatTimeDisplay(
+                            hours,
+                            minutes,
+                            seconds,
+                        );
+                    }, 100);
 
-                    const hours = Math.floor(remaining / 3600);
-                    const minutes = Math.floor((remaining % 3600) / 60);
-                    const seconds = remaining % 60;
+                    // Start the timer and wait for completion
+                    await timer.start();
+                    timerStatus.textContent = "Timer completed!";
+                    clearInterval(interval);
+                    timerDisplay.textContent = formatTimeDisplay(0, 0, 0);
+                    startTimerBtn.disabled = false;
+                } catch (error) {
+                    console.error("Timer error:", error);
+                    timerStatus.textContent = `Error: ${error.message}`;
+                    startTimerBtn.disabled = false;
+                }
+            });
 
-                    timerDisplay.textContent = formatTimeDisplay(hours, minutes, seconds);
-                }, 100);
+            // Stopwatch functionality
+            let stopwatch = null;
+            let stopwatchInterval;
 
-                // Start the timer and wait for completion
-                await timer.start();
-                timerStatus.textContent = 'Timer completed!';
-                clearInterval(interval);
-                timerDisplay.textContent = formatTimeDisplay(0, 0, 0);
-                startTimerBtn.disabled = false;
-            } catch (error) {
-                console.error('Timer error:', error);
-                timerStatus.textContent = `Error: ${error.message}`;
-                startTimerBtn.disabled = false;
-            }
-        });
+            startStopwatchBtn.addEventListener("click", () => {
+                try {
+                    stopwatch = new Stopwatch();
+                    console.log("Stopwatch created");
+                    stopwatch.start();
 
-        // Stopwatch functionality
-        let stopwatch = null;
-        let stopwatchInterval;
+                    startStopwatchBtn.disabled = true;
+                    stopStopwatchBtn.disabled = false;
+                    resetStopwatchBtn.disabled = true;
 
-        startStopwatchBtn.addEventListener('click', () => {
-            try {
-                stopwatch = new Stopwatch();
-                console.log("Stopwatch created");
-                stopwatch.start();
+                    stopwatchStatus.textContent = "Stopwatch running...";
 
-                startStopwatchBtn.disabled = true;
-                stopStopwatchBtn.disabled = false;
-                resetStopwatchBtn.disabled = true;
+                    // Update display every 100ms
+                    stopwatchInterval = setInterval(() => {
+                        // Get the current time directly from the stopwatch
+                        const time = stopwatch.current_time;
 
-                stopwatchStatus.textContent = 'Stopwatch running...';
+                        const hours = Math.floor(time / 3600);
+                        const minutes = Math.floor((time % 3600) / 60);
+                        const seconds = time % 60;
 
-                // Update display every 100ms
-                stopwatchInterval = setInterval(() => {
-                    // Get the current time directly from the stopwatch
-                    const time = stopwatch.current_time;
+                        stopwatchDisplay.textContent = formatTimeDisplay(
+                            hours,
+                            minutes,
+                            seconds,
+                        );
+                    }, 100);
+                } catch (error) {
+                    console.error("Stopwatch error:", error);
+                    stopwatchStatus.textContent = `Error: ${error.message}`;
+                }
+            });
 
-                    const hours = Math.floor(time / 3600);
-                    const minutes = Math.floor((time % 3600) / 60);
-                    const seconds = time % 60;
+            stopStopwatchBtn.addEventListener("click", () => {
+                if (!stopwatch) return;
 
-                    stopwatchDisplay.textContent = formatTimeDisplay(hours, minutes, seconds);
-                }, 100);
-            } catch (error) {
-                console.error('Stopwatch error:', error);
-                stopwatchStatus.textContent = `Error: ${error.message}`;
-            }
-        });
+                try {
+                    const elapsed = stopwatch.stop();
+                    clearInterval(stopwatchInterval);
 
-        stopStopwatchBtn.addEventListener('click', () => {
-            if (!stopwatch) return;
+                    stopwatchStatus.textContent = `Stopped at ${elapsed} seconds`;
 
-            try {
-                const elapsed = stopwatch.stop();
-                clearInterval(stopwatchInterval);
+                    startStopwatchBtn.disabled = false;
+                    stopStopwatchBtn.disabled = true;
+                    resetStopwatchBtn.disabled = false;
+                } catch (error) {
+                    console.error("Stopwatch stop error:", error);
+                    stopwatchStatus.textContent = `Error: ${error.message}`;
+                }
+            });
 
-                stopwatchStatus.textContent = `Stopped at ${elapsed} seconds`;
+            resetStopwatchBtn.addEventListener("click", () => {
+                if (!stopwatch) return;
 
-                startStopwatchBtn.disabled = false;
-                stopStopwatchBtn.disabled = true;
-                resetStopwatchBtn.disabled = false;
-            } catch (error) {
-                console.error('Stopwatch stop error:', error);
-                stopwatchStatus.textContent = `Error: ${error.message}`;
-            }
-        });
+                try {
+                    stopwatch.reset();
 
-        resetStopwatchBtn.addEventListener('click', () => {
-            if (!stopwatch) return;
+                    const hours = 0;
+                    const minutes = 0;
+                    const seconds = 0;
 
-            try {
-                stopwatch.reset();
+                    stopwatchDisplay.textContent = formatTimeDisplay(
+                        hours,
+                        minutes,
+                        seconds,
+                    );
+                    stopwatchStatus.textContent = "Stopwatch reset";
 
-                const hours = 0;
-                const minutes = 0;
-                const seconds = 0;
+                    resetStopwatchBtn.disabled = true;
+                } catch (error) {
+                    console.error("Stopwatch reset error:", error);
+                    stopwatchStatus.textContent = `Error: ${error.message}`;
+                }
+            });
 
-                stopwatchDisplay.textContent = formatTimeDisplay(hours, minutes, seconds);
-                stopwatchStatus.textContent = 'Stopwatch reset';
-
-                resetStopwatchBtn.disabled = true;
-            } catch (error) {
-                console.error('Stopwatch reset error:', error);
-                stopwatchStatus.textContent = `Error: ${error.message}`;
-            }
-        });
-
-        console.log("Clock Timer JS Demo initialized");
-    </script>
-</body>
+            console.log("Rust Ticker JS Demo initialized");
+        </script>
+    </body>
 </html>
