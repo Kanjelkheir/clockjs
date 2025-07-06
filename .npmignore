@@ -28,8 +28,15 @@ build.sh
 *.md
 !README.md
 !CHANGELOG.md
-!LICENSE.md
+!LICENSE
 
-# Keep only the dist directory for npm
-/dist/web/
-/dist/node/
+# All files are excluded by default, we explicitly include what we want
+*
+!dist/
+!dist/bundler/
+!dist/web/
+!dist/node/
+!LICENSE
+!package.json
+!README.md
+!js-demo.html

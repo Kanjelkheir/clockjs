@@ -2,10 +2,18 @@
 
 A Rust-based timer and stopwatch library compiled to WebAssembly for use in JavaScript and TypeScript applications.
 
+## Features
+
+- **Timer**: Countdown from a specified duration
+- **Stopwatch**: Measure elapsed time
+- **WebAssembly**: High-performance timing functionality
+- **JavaScript Fallback**: Works even in environments without WebAssembly support
+- **Multiple Formats**: Support for bundlers, Node.js, and direct browser usage
+
 ## Installation
 
 ```bash
-npm install clock-timer
+npm install clock-timer-wasm
 ```
 
 ## Usage
@@ -15,7 +23,7 @@ npm install clock-timer
 The Timer provides a countdown functionality from a specified time.
 
 ```javascript
-import { Timer } from 'clock-timer';
+import { Timer } from 'clock-timer-wasm';
 
 // Create a timer for 1 hour, 30 minutes, 15 seconds
 const timer = new Timer(1, 30, 15);
@@ -37,7 +45,7 @@ timer.start().then(() => {
 The Stopwatch provides timing functionality to track elapsed time.
 
 ```javascript
-import { Stopwatch } from 'clock-timer';
+import { Stopwatch } from 'clock-timer-wasm';
 
 // Create a new stopwatch
 const stopwatch = new Stopwatch();
@@ -56,6 +64,48 @@ setTimeout(() => {
   // Reset if needed
   stopwatch.reset();
 }, 5000);
+```
+
+## Different Module Formats
+
+This package supports multiple JavaScript environments:
+
+### ES Modules (Bundlers like webpack, Rollup, etc.)
+
+```javascript
+import init, { Timer, Stopwatch } from 'clock-timer-wasm';
+
+// Initialize the WASM module first
+init().then(() => {
+  const timer = new Timer(0, 1, 30);
+  // Use the timer...
+});
+```
+
+### Node.js
+
+```javascript
+const clockTimer = require('clock-timer-wasm');
+
+// Initialize the WASM module first
+clockTimer.default().then(() => {
+  const timer = new clockTimer.Timer(0, 1, 30);
+  // Use the timer...
+});
+```
+
+### Direct Browser Usage
+
+```html
+<script type="module">
+  import init, { Timer, Stopwatch } from './node_modules/clock-timer-wasm/dist/web/clock_timer.js';
+  
+  // Initialize the WASM module first
+  init().then(() => {
+    const timer = new Timer(0, 1, 30);
+    // Use the timer...
+  });
+</script>
 ```
 
 ## Browser Example
@@ -85,70 +135,117 @@ setTimeout(() => {
   </div>
 
   <script type="module">
-    import { Timer, Stopwatch } from 'clock-timer';
+    import init, { Timer, Stopwatch } from 'clock-timer-wasm';
     
-    // Timer example
-    const timerDisplay = document.getElementById('timer-display');
-    const startTimerBtn = document.getElementById('start-timer');
-    
-    startTimerBtn.addEventListener('click', () => {
-      const timer = new Timer(0, 0, 10); // 10 second timer
+    // Initialize the WASM module first
+    init().then(() => {
+      // Timer example
+      const timerDisplay = document.getElementById('timer-display');
+      const startTimerBtn = document.getElementById('start-timer');
       
-      // Update display every second
-      const interval = setInterval(() => {
-        const remaining = timer.duration - Math.floor((Date.now() - startTime) / 1000);
-        if (remaining >= 0) {
-          const h = Math.floor(remaining / 3600);
-          const m = Math.floor((remaining % 3600) / 60);
-          const s = remaining % 60;
-          timerDisplay.textContent = `${h}:${m}:${s}`;
-        }
-      }, 100);
-      
-      const startTime = Date.now();
-      timer.start().then(() => {
-        clearInterval(interval);
-        timerDisplay.textContent = '0:0:0';
-        console.log('Timer completed!');
+      startTimerBtn.addEventListener('click', () => {
+        const timer = new Timer(0, 0, 10); // 10 second timer
+        
+        // Update display every second
+        const interval = setInterval(() => {
+          const remaining = timer.duration - Math.floor((Date.now() - startTime) / 1000);
+          if (remaining >= 0) {
+            const h = Math.floor(remaining / 3600);
+            const m = Math.floor((remaining % 3600) / 60);
+            const s = remaining % 60;
+            timerDisplay.textContent = `${h}:${m}:${s}`;
+          }
+        }, 100);
+        
+        const startTime = Date.now();
+        timer.start().then(() => {
+          clearInterval(interval);
+          timerDisplay.textContent = '0:0:0';
+          console.log('Timer completed!');
+        });
       });
-    });
-    
-    // Stopwatch example
-    const stopwatchDisplay = document.getElementById('stopwatch-display');
-    const startStopwatchBtn = document.getElementById('start-stopwatch');
-    const stopStopwatchBtn = document.getElementById('stop-stopwatch');
-    const resetStopwatchBtn = document.getElementById('reset-stopwatch');
-    
-    const stopwatch = new Stopwatch();
-    let displayInterval;
-    
-    startStopwatchBtn.addEventListener('click', () => {
-      stopwatch.start();
       
-      // Update display every 100ms for smooth UI
-      displayInterval = setInterval(() => {
-        const time = stopwatch.current_time;
-        const h = Math.floor(time / 3600);
-        const m = Math.floor((time % 3600) / 60);
-        const s = time % 60;
-        stopwatchDisplay.textContent = `${h}:${m}:${s}`;
-      }, 100);
-    });
-    
-    stopStopwatchBtn.addEventListener('click', () => {
-      const elapsed = stopwatch.stop();
-      clearInterval(displayInterval);
-      console.log(`Elapsed time: ${elapsed} seconds`);
-    });
-    
-    resetStopwatchBtn.addEventListener('click', () => {
-      stopwatch.reset();
-      stopwatchDisplay.textContent = '0:0:0';
+      // Stopwatch example
+      const stopwatchDisplay = document.getElementById('stopwatch-display');
+      const startStopwatchBtn = document.getElementById('start-stopwatch');
+      const stopStopwatchBtn = document.getElementById('stop-stopwatch');
+      const resetStopwatchBtn = document.getElementById('reset-stopwatch');
+      
+      const stopwatch = new Stopwatch();
+      let displayInterval;
+      
+      startStopwatchBtn.addEventListener('click', () => {
+        stopwatch.start();
+        
+        // Update display every 100ms for smooth UI
+        displayInterval = setInterval(() => {
+          const time = stopwatch.current_time;
+          const h = Math.floor(time / 3600);
+          const m = Math.floor((time % 3600) / 60);
+          const s = time % 60;
+          stopwatchDisplay.textContent = `${h}:${m}:${s}`;
+        }, 100);
+      });
+      
+      stopStopwatchBtn.addEventListener('click', () => {
+        const elapsed = stopwatch.stop();
+        clearInterval(displayInterval);
+        console.log(`Elapsed time: ${elapsed} seconds`);
+      });
+      
+      resetStopwatchBtn.addEventListener('click', () => {
+        stopwatch.reset();
+        stopwatchDisplay.textContent = '0:0:0';
+      });
     });
   </script>
 </body>
 </html>
 ```
+
+## Development
+
+### Building from Source
+
+If you want to build this library from source:
+
+1. Install Rust and wasm-pack:
+   ```bash
+   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+   curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+   ```
+
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/clock-timer.git
+   cd clock-timer
+   ```
+
+3. Build the WebAssembly modules:
+   ```bash
+   wasm-pack build --target bundler --out-dir dist/bundler
+   wasm-pack build --target web --out-dir dist/web
+   wasm-pack build --target nodejs --out-dir dist/node
+   ```
+
+## Publishing to npm
+
+To publish this package to npm:
+
+1. Make sure you have an npm account and are logged in:
+   ```bash
+   npm login
+   ```
+
+2. Build all formats:
+   ```bash
+   npm run build
+   ```
+
+3. Publish the package:
+   ```bash
+   npm publish
+   ```
 
 ## License
 
