@@ -1,0 +1,50 @@
+{
+  "name": "clock-timer-wasm",
+  "version": "0.2.4",
+  "description": "A clock library that offers a timer and a stopwatch for your web apps, compiled to WebAssembly from Rust",
+  "main": "dist/bundler/clock_timer.js",
+  "module": "dist/bundler/clock_timer.js",
+  "types": "dist/bundler/clock_timer.d.ts",
+  "files": [
+    "dist/bundler",
+    "dist/web",
+    "dist/node",
+    "README.md",
+    "LICENSE",
+    "js-demo.html"
+  ],
+  "scripts": {
+    "build": "wasm-pack build --target bundler --out-dir dist/bundler && wasm-pack build --target web --out-dir dist/web && wasm-pack build --target nodejs --out-dir dist/node",
+    "test": "wasm-pack test --node",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/clock-timer.git"
+  },
+  "keywords": [
+    "timer",
+    "stopwatch",
+    "clock",
+    "wasm",
+    "rust",
+    "webassembly",
+    "time",
+    "countdown"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yourusername/clock-timer/issues"
+  },
+  "homepage": "https://github.com/yourusername/clock-timer#readme",
+  "devDependencies": {
+    "wasm-pack": "^0.12.1"
+  },
+  "browser": "dist/web/clock_timer.js",
+  "exports": {
+    "import": "./dist/bundler/clock_timer.js",
+    "require": "./dist/node/clock_timer.js",
+    "browser": "./dist/web/clock_timer.js"
+  }
+}

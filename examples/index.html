@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock Timer WASM Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .demo-box {
+            flex: 1;
+            min-width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .time-display {
+            font-size: 2.5rem;
+            font-family: monospace;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #0066cc;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #0052a3;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        code {
+            display: block;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Clock Timer WASM Demo</h1>
+    <p>This demo demonstrates the clock-timer WebAssembly module running in the browser.</p>
+
+    <div class="container">
+        <div class="demo-box">
+            <h2>Timer</h2>
+            <div id="timer-display" class="time-display">00:00:10</div>
+            <div class="controls">
+                <button id="start-timer">Start Timer (10s)</button>
+            </div>
+            <div id="timer-status"></div>
+            <h3>Example Code:</h3>
+            <code>
+const timer = new Timer(0, 0, 10); // 10 second timer
+timer.start().then(() => {
+  console.log('Timer completed!');
+});
+            </code>
+        </div>
+
+        <div class="demo-box">
+            <h2>Stopwatch</h2>
+            <div id="stopwatch-display" class="time-display">00:00:00</div>
+            <div class="controls">
+                <button id="start-stopwatch">Start</button>
+                <button id="stop-stopwatch" disabled>Stop</button>
+                <button id="reset-stopwatch" disabled>Reset</button>
+            </div>
+            <div id="stopwatch-status"></div>
+            <h3>Example Code:</h3>
+            <code>
+const stopwatch = new Stopwatch();
+stopwatch.start();
+// Later:
+const elapsed = stopwatch.stop();
+console.log(`Elapsed time: ${elapsed} seconds`);
+stopwatch.reset();
+            </code>
+        </div>
+    </div>
+
+    <script type="module">
+        // In a real project, you would use:
+        // import { Timer, Stopwatch } from 'clock-timer';
+        // For this demo, we're assuming the module is built to ../dist
+
+        async function init() {
+            try {
+                // Dynamically import the wasm module
+                const clockTimer = await import('../dist/clock_timer.js');
+                const { Timer, Stopwatch } = clockTimer;
+
+                // Timer Elements
+                const timerDisplay = document.getElementById('timer-display');
+                const startTimerBtn = document.getElementById('start-timer');
+                const timerStatus = document.getElementById('timer-status');
+
+                // Stopwatch Elements
+                const stopwatchDisplay = document.getElementById('stopwatch-display');
+                const startStopwatchBtn = document.getElementById('start-stopwatch');
+                const stopStopwatchBtn = document.getElementById('stop-stopwatch');
+                const resetStopwatchBtn = document.getElementById('reset-stopwatch');
+                const stopwatchStatus = document.getElementById('stopwatch-status');
+
+                // Format time display (adds leading zeros)
+                function formatTimeDisplay(hours, minutes, seconds) {
+                    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+
+                // Timer functionality
+                startTimerBtn.addEventListener('click', async () => {
+                    // Create a 10 second timer
+                    const timer = new Timer(0, 0, 10);
+                    startTimerBtn.disabled = true;
+                    timerStatus.textContent = 'Timer running...';
+
+                    // Start time for client-side display updates
+                    const startTime = Date.now();
+                    const totalDuration = timer.duration;
+
+                    // Update display every 100ms for smooth countdown
+                    const interval = setInterval(() => {
+                        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                        const remaining = Math.max(0, totalDuration - elapsed);
+
+                        const hours = Math.floor(remaining / 3600);
+                        const minutes = Math.floor((remaining % 3600) / 60);
+                        const seconds = remaining % 60;
+
+                        timerDisplay.textContent = formatTimeDisplay(hours, minutes, seconds);
+                    }, 100);
+
+                    // Start the timer and wait for completion
+                    try {
+                        await timer.start();
+                        timerStatus.textContent = 'Timer completed!';
+                    } catch (error) {
+                        timerStatus.textContent = `Error: ${error.message}`;
+                        console.error('Timer error:', error);
+                    } finally {
+                        clearInterval(interval);
+                        startTimerBtn.disabled = false;
+                    }
+                });
+
+                // Stopwatch functionality
+                let stopwatch = new Stopwatch();
+                let stopwatchInterval;
+
+                startStopwatchBtn.addEventListener('click', () => {
+                    stopwatch.start();
+
+                    startStopwatchBtn.disabled = true;
+                    stopStopwatchBtn.disabled = false;
+                    resetStopwatchBtn.disabled = true;
+
+                    stopwatchStatus.textContent = 'Stopwatch running...';
+
+                    // Update display every 100ms
+                    stopwatchInterval = setInterval(() => {
+                        // Get the current time directly from the stopwatch
+                        // In a real implementation, we might need to track this client-side
+                        // as the WASM module's internal time might only update every second
+                        const time = stopwatch.current_time;
+
+                        const hours = Math.floor(time / 3600);
+                        const minutes = Math.floor((time % 3600) / 60);
+                        const seconds = time % 60;
+
+                        stopwatchDisplay.textContent = formatTimeDisplay(hours, minutes, seconds);
+                    }, 100);
+                });
+
+                stopStopwatchBtn.addEventListener('click', () => {
+                    const elapsed = stopwatch.stop();
+                    clearInterval(stopwatchInterval);
+
+                    stopwatchStatus.textContent = `Stopped at ${elapsed} seconds`;
+
+                    startStopwatchBtn.disabled = false;
+                    stopStopwatchBtn.disabled = true;
+                    resetStopwatchBtn.disabled = false;
+                });
+
+                resetStopwatchBtn.addEventListener('click', () => {
+                    stopwatch.reset();
+
+                    const hours = 0;
+                    const minutes = 0;
+                    const seconds = 0;
+
+                    stopwatchDisplay.textContent = formatTimeDisplay(hours, minutes, seconds);
+                    stopwatchStatus.textContent = 'Stopwatch reset';
+
+                    resetStopwatchBtn.disabled = true;
+                });
+
+            } catch (error) {
+                console.error("Failed to initialize WASM module:", error);
+                document.body.innerHTML += `
+                    <div style="color: red; margin-top: 20px; padding: 10px; border: 1px solid red;">
+                        <h2>Error Loading WASM Module</h2>
+                        <p>${error.message}</p>
+                        <p>Make sure you've built the WASM module with wasm-pack:</p>
+                        <code>cd clock-timer && wasm-pack build --target web --out-dir dist</code>
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize the application
+        init();
+    </script>
+</body>
+</html>

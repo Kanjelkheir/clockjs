@@ -1,0 +1,35 @@
+# Rust and Cargo files
+/target/
+**/*.rs.bk
+Cargo.lock
+
+# Development files
+/src/
+/.github/
+/.git/
+/.gitignore
+/examples/
+/tests/
+/benches/
+
+# Build scripts and configurations
+build.sh
+.travis.yml
+.appveyor.yml
+.cargo/
+
+# Editor and IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Documentation and misc
+*.md
+!README.md
+!CHANGELOG.md
+!LICENSE.md
+
+# Keep only the dist directory for npm
+/dist/web/
+/dist/node/

@@ -1,6 +1,15 @@
+#[cfg(target_arch = "wasm32")]
+pub mod wasm;
+
 /// Module for countdown timer functionalities.
+
 pub mod timer {
     use std::{io::Write, thread, time::Duration};
+
+    pub trait TimerTrait {
+        fn new(hours: u32, minutes: u32, seconds: u32) -> Result<TimerStruct, &'static str>;
+        fn start_timer<W: Write>(&self, writer: &mut W);
+    }
 
     /// Represents a countdown timer.
     #[derive(Clone, Copy, Debug)]
@@ -15,7 +24,7 @@ pub mod timer {
         pub seconds: u32,
     }
 
-    impl TimerStruct {
+    impl TimerTrait for TimerStruct {
         /// Creates a new `TimerStruct` instance.
         ///
         /// # Arguments
@@ -38,7 +47,7 @@ pub mod timer {
         /// let timer = TimerStruct::new(0, 1, 30).expect("Failed to create timer"); // 1 minute 30 seconds
         /// let invalid_timer = TimerStruct::new(0, 0, 0); // This will return an Err
         /// ```
-        pub fn new(hours: u32, minutes: u32, seconds: u32) -> Result<TimerStruct, &'static str> {
+        fn new(hours: u32, minutes: u32, seconds: u32) -> Result<TimerStruct, &'static str> {
             let duration = (hours * 3600) + (minutes * 60) + seconds;
 
             if duration == 0 {
@@ -75,7 +84,7 @@ pub mod timer {
         /// timer.start_timer(&mut writer);
         /// println!("Timer finished!");
         /// ```
-        pub fn start_timer<W: Write>(&self, writer: &mut W) {
+        fn start_timer<W: Write>(&self, writer: &mut W) {
             let mut current_duration = self.duration;
             let one_second = Duration::from_secs(1);
 
@@ -109,20 +118,28 @@ pub mod timer {
 /// Re-exports `TimerStruct` from the `timer` module for easier access.
 pub use timer::TimerStruct;
 
-
 /// Module for stopwatch functionalities.
 pub mod stopwatch {
+    #[cfg(not(target_arch = "wasm32"))]
     use ctrlc;
     use std::{
         io::Write,
         process,
         sync::{
-            atomic::{AtomicU32, Ordering},
             Arc,
+            atomic::{AtomicU32, Ordering},
         },
         thread,
         time::Duration,
     };
+
+    pub trait StopwatchTrait<T>
+    where
+        T: Fn(u32) + std::marker::Send + Copy + 'static,
+    {
+        fn new(operation_on_stop: T) -> StopwatchStruct<T>;
+        fn start_stopwatch<W: Write>(&mut self, writer: &mut W);
+    }
 
     /// Represents the current status of the stopwatch.
     #[derive(Clone, Debug)]
@@ -218,7 +235,7 @@ pub mod stopwatch {
         /// stopwatch.start_timer(&mut stdout());
         /// println!("Stopwatch loop ended.");
         /// ```
-        pub fn start_timer<W: Write>(&mut self, writer: &mut W) {
+        pub fn start_stopwatch<W: Write>(&mut self, writer: &mut W) {
             // Share the current time with the Ctrl-C handler using an Arc<AtomicU32>.
             // This is necessary because the handler has a 'static lifetime and needs
             // access to the time, which is being mutated in the loop.
@@ -230,6 +247,7 @@ pub mod stopwatch {
             let op_on_stop = self.operation_on_stop;
 
             // Set the Ctrl-C handler. This closure is executed when the user presses Ctrl-C.
+            #[cfg(not(target_arch = "wasm32"))]
             ctrlc::set_handler(move || {
                 // Load the current elapsed time from the shared atomic variable.
                 let final_time = time_for_handler.load(Ordering::SeqCst);
@@ -277,6 +295,5 @@ pub mod stopwatch {
             // Execute the on-stop operation.
             (self.operation_on_stop)(self.current_time);
         }
-
     }
 }
