@@ -1,4 +1,4 @@
-# Clock Timer
+# Rust Ticker
 
 A Rust-based timer and stopwatch library compiled to WebAssembly for use in JavaScript and TypeScript applications.
 
@@ -13,7 +13,7 @@ A Rust-based timer and stopwatch library compiled to WebAssembly for use in Java
 ## Installation
 
 ```bash
-npm install clockjs
+npm install rust-ticker
 ```
 
 ## Usage
@@ -23,7 +23,7 @@ npm install clockjs
 The Timer provides a countdown functionality from a specified time.
 
 ```javascript
-import { Timer } from 'clockjs';
+import { Timer } from 'rust-ticker';
 
 // Create a timer for 1 hour, 30 minutes, 15 seconds
 const timer = new Timer(1, 30, 15);
@@ -45,7 +45,7 @@ timer.start().then(() => {
 The Stopwatch provides timing functionality to track elapsed time.
 
 ```javascript
-import { Stopwatch } from 'clockjs';
+import { Stopwatch } from 'rust-ticker';
 
 // Create a new stopwatch
 const stopwatch = new Stopwatch();
@@ -60,7 +60,7 @@ console.log(`Stopwatch running: ${stopwatch.is_running}`);
 setTimeout(() => {
   const elapsed = stopwatch.stop();
   console.log(`Elapsed time: ${elapsed} seconds`);
-  
+
   // Reset if needed
   stopwatch.reset();
 }, 5000);
@@ -73,7 +73,7 @@ This package supports multiple JavaScript environments:
 ### ES Modules (Bundlers like webpack, Rollup, etc.)
 
 ```javascript
-import { Timer, Stopwatch } from 'clockjs';
+import { Timer, Stopwatch } from 'rust-ticker';
 
 // No need to initialize - just use directly!
 const timer = new Timer(0, 0, 10);
@@ -83,7 +83,7 @@ const timer = new Timer(0, 0, 10);
 ### Node.js
 
 ```javascript
-const { Timer, Stopwatch } = require('clockjs');
+const { Timer, Stopwatch } = require('rust-ticker');
 
 // No need to initialize - just use directly!
 const timer = new Timer(0, 1, 30);
@@ -94,8 +94,8 @@ const timer = new Timer(0, 1, 30);
 
 ```html
 <script type="module">
-  import { Timer, Stopwatch } from './node_modules/clockjs/dist/web/clockjs.js';
-  
+  import { Timer, Stopwatch } from './node_modules/rust-ticker/dist/web/clockjs.js';
+
   // No need to initialize - just use directly!
   const timer = new Timer(0, 1, 30);
   // Use the timer...
@@ -113,13 +113,13 @@ const timer = new Timer(0, 1, 30);
 </head>
 <body>
   <h1>Clock Timer Demo</h1>
-  
+
   <div>
     <h2>Timer</h2>
     <div id="timer-display">0:0:0</div>
     <button id="start-timer">Start 10s Timer</button>
   </div>
-  
+
   <div>
     <h2>Stopwatch</h2>
     <div id="stopwatch-display">0:0:0</div>
@@ -129,15 +129,15 @@ const timer = new Timer(0, 1, 30);
   </div>
 
   <script type="module">
-    import { Timer, Stopwatch } from 'clockjs';
-    
+    import { Timer, Stopwatch } from 'rust-ticker';
+
     // Timer example
     const timerDisplay = document.getElementById('timer-display');
     const startTimerBtn = document.getElementById('start-timer');
-    
+
     startTimerBtn.addEventListener('click', () => {
       const timer = new Timer(0, 0, 10); // 10 second timer
-      
+
       // Update display every second
       const interval = setInterval(() => {
         const remaining = timer.duration - Math.floor((Date.now() - startTime) / 1000);
@@ -148,7 +148,7 @@ const timer = new Timer(0, 1, 30);
           timerDisplay.textContent = `${h}:${m}:${s}`;
         }
       }, 100);
-      
+
       const startTime = Date.now();
       timer.start().then(() => {
         clearInterval(interval);
@@ -156,19 +156,19 @@ const timer = new Timer(0, 1, 30);
         console.log('Timer completed!');
       });
     });
-    
+
     // Stopwatch example
     const stopwatchDisplay = document.getElementById('stopwatch-display');
     const startStopwatchBtn = document.getElementById('start-stopwatch');
     const stopStopwatchBtn = document.getElementById('stop-stopwatch');
     const resetStopwatchBtn = document.getElementById('reset-stopwatch');
-    
+
     const stopwatch = new Stopwatch();
     let displayInterval;
-    
+
     startStopwatchBtn.addEventListener('click', () => {
       stopwatch.start();
-      
+
       // Update display every 100ms for smooth UI
       displayInterval = setInterval(() => {
         const time = stopwatch.current_time;
@@ -178,13 +178,13 @@ const timer = new Timer(0, 1, 30);
         stopwatchDisplay.textContent = `${h}:${m}:${s}`;
       }, 100);
     });
-    
+
     stopStopwatchBtn.addEventListener('click', () => {
       const elapsed = stopwatch.stop();
       clearInterval(displayInterval);
       console.log(`Elapsed time: ${elapsed} seconds`);
     });
-    
+
     resetStopwatchBtn.addEventListener('click', () => {
       stopwatch.reset();
       stopwatchDisplay.textContent = '0:0:0';
@@ -219,29 +219,6 @@ If you want to build this library from source:
    wasm-pack build --target nodejs --out-dir dist/node
    ```
 
-## Publishing to npm
-
-To publish this package to npm:
-
-1. Make sure you have an npm account and are logged in:
-   ```bash
-   npm login
-   ```
-
-2. Build all formats:
-   ```bash
-   npm run build
-   ```
-
-3. Publish the package:
-   ```bash
-   npm publish
-   ```
-
-4. After publishing, your package will be available at:
-   ```
-   https://www.npmjs.com/package/clockjs
-   ```
 
 ## License
 
