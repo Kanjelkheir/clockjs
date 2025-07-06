@@ -39,4 +39,5 @@ build.sh
 !LICENSE
 !package.json
 !README.md
+!NPM.md
 !js-demo.html

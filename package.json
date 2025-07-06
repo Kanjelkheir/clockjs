@@ -1,26 +1,28 @@
 {
-  "name": "clock-timer-wasm",
+  "name": "clockjs",
   "version": "0.2.4",
-  "description": "A clock library that offers a timer and a stopwatch for your web apps, compiled to WebAssembly from Rust",
-  "main": "dist/bundler/clock_timer.js",
-  "module": "dist/bundler/clock_timer.js",
+  "description": "High-performance timer and stopwatch library built with Rust and WebAssembly",
+  "main": "dist/bundler/clockjs.js",
+  "module": "dist/bundler/clockjs.js",
   "types": "dist/bundler/clock_timer.d.ts",
   "files": [
     "dist/bundler",
     "dist/web",
     "dist/node",
     "README.md",
+    "NPM.md",
     "LICENSE",
     "js-demo.html"
   ],
   "scripts": {
-    "build": "wasm-pack build --target bundler --out-dir dist/bundler && wasm-pack build --target web --out-dir dist/web && wasm-pack build --target nodejs --out-dir dist/node",
+    "build": "wasm-pack build --target bundler --out-dir dist/bundler && wasm-pack build --target web --out-dir dist/web && wasm-pack build --target nodejs --out-dir dist/node && npm run build:wrappers",
+    "build:wrappers": "cp dist/bundler/clockjs.js dist/bundler/ && cp dist/web/clockjs.js dist/web/ && cp dist/node/clockjs.js dist/node/",
     "test": "wasm-pack test --node",
     "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/clock-timer.git"
+    "url": "git+https://github.com/yourusername/clockjs.git"
   },
   "keywords": [
     "timer",
@@ -35,16 +37,16 @@
   "author": "Your Name",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yourusername/clock-timer/issues"
+    "url": "https://github.com/yourusername/clockjs/issues"
   },
-  "homepage": "https://github.com/yourusername/clock-timer#readme",
+  "homepage": "https://github.com/yourusername/clockjs#readme",
   "devDependencies": {
     "wasm-pack": "^0.12.1"
   },
-  "browser": "dist/web/clock_timer.js",
+  "browser": "dist/web/clockjs.js",
   "exports": {
-    "import": "./dist/bundler/clock_timer.js",
-    "require": "./dist/node/clock_timer.js",
-    "browser": "./dist/web/clock_timer.js"
+    "import": "./dist/bundler/clockjs.js",
+    "require": "./dist/node/clockjs.js",
+    "browser": "./dist/web/clockjs.js"
   }
 }
