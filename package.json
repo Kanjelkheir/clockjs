@@ -1,5 +1,5 @@
 {
-  "name": "clockjs",
+  "name": "rust-ticker",
   "version": "0.2.4",
   "description": "High-performance timer and stopwatch library built with Rust and WebAssembly",
   "main": "dist/bundler/clockjs.js",
@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/clockjs.git"
+    "url": "git+https://github.com/bilal-algorithms/rust-ticker.git"
   },
   "keywords": [
     "timer",
@@ -43,12 +43,12 @@
     "time",
     "countdown"
   ],
-  "author": "Your Name",
+  "author": "Bilal Kanjelkheir",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yourusername/clockjs/issues"
+    "url": "https://github.com/bilal-algorithms/rust-ticker/issues"
   },
-  "homepage": "https://github.com/yourusername/clockjs#readme",
+  "homepage": "https://github.com/bilal-algorithms/rust-ticker#readme",
   "devDependencies": {
     "wasm-pack": "^0.12.1"
   },
