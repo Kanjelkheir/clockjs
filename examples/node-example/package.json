@@ -1,0 +1,15 @@
+{
+  "name": "rust-ticker-node-example",
+  "version": "1.0.0",
+  "description": "Example Node.js application using rust-ticker",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "rust-ticker": "file:../../"
+  },
+  "author": "Bilal Kanjelkheir",
+  "license": "MIT"
+}
